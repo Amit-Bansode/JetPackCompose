@@ -1,4 +1,4 @@
-package com.kotlin.unitconverterapp
+package com.kotlin.unitconverterapp.data
 
 data class Conversions(
     val id: Int,

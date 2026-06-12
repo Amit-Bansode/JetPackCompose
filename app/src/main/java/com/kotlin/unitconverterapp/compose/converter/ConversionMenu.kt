@@ -1,6 +1,5 @@
-package com.kotlin.unitconverterapp
+package com.kotlin.unitconverterapp.compose.converter
 
-import android.graphics.drawable.Icon
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -10,6 +9,7 @@ import androidx.compose.material.icons.filled.ArrowDownward
 import androidx.compose.material.icons.filled.ArrowUpward
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,10 +22,10 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.toSize
+import com.kotlin.unitconverterapp.data.Conversions
 
 @Composable
 fun ConversionMenu(
@@ -53,7 +53,7 @@ fun ConversionMenu(
                 },
             label = { Text(text = "Conversion Type") },
             trailingIcon = {
-                androidx.compose.material3.Icon(
+                Icon(
                     icon, "icon",
                     modifier = modifier.clickable {
                         expanded = !expanded
