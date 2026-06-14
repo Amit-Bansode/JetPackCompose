@@ -30,7 +30,12 @@ fun BaseScreen(
             .padding(20.dp)
             .statusBarsPadding()
     ) {
-        TopScreen(list) { t1, t2 ->
+        TopScreen(
+            conversionViewModel.selectedConversions,
+            conversionViewModel.inputText,
+            conversionViewModel.typedValue,
+            list,
+        ) { t1, t2 ->
             conversionViewModel.addResult(t1, t2)
         }
         Spacer(modifier.padding(20.dp))
