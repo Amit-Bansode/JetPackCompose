@@ -3,8 +3,11 @@ package com.kotlin.unitconverterapp.compose
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
@@ -19,7 +22,8 @@ import com.kotlin.unitconverterapp.compose.history.HistoryScreen
 fun BaseScreen(
     factory: ConverterViewModelFactory,
     modifier: Modifier = Modifier,
-    conversionViewModel: ConversionViewModel = viewModel(factory = factory)
+    conversionViewModel: ConversionViewModel = viewModel(factory = factory),
+    launchSideEffect: () -> Unit
 ) {
 
     val list = conversionViewModel.getConversions()
@@ -47,5 +51,18 @@ fun BaseScreen(
             onClearAll = {
                 conversionViewModel.clearAll()
             })
+
+        Button(
+            onClick = {
+                launchSideEffect()
+            },
+            modifier = Modifier
+                .padding(20.dp)
+                .fillMaxWidth(),
+
+            ) {
+            Text(text = "Side Effect POC")
+        }
+
     }
 }

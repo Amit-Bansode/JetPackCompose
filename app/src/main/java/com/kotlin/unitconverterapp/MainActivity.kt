@@ -1,16 +1,17 @@
 package com.kotlin.unitconverterapp
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.ui.Modifier
 import com.kotlin.unitconverterapp.compose.BaseScreen
-import com.kotlin.unitconverterapp.data.ConversionDB
-import com.kotlin.unitconverterapp.data.ConversionRepositoryIMPL
+import com.kotlin.unitconverterapp.sideeffect.SideEffectsActivity
 import com.kotlin.unitconverterapp.ui.theme.UnitConverterAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+import kotlin.jvm.java
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -23,7 +24,9 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             UnitConverterAppTheme {
-                BaseScreen(factory = factory, Modifier)
+                BaseScreen(factory = factory, Modifier) {
+                    startActivity(Intent(this, SideEffectsActivity::class.java))
+                }
             }
         }
     }
