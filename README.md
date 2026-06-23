@@ -1,42 +1,46 @@
-# Jetpack Compose Side Effects Practice
+# Jetpack Compose Side Effects & State Practice
 
-This project is a learning playground for mastering **Jetpack Compose Side Effects** and modern Android development patterns. It features a simple "Round Counter" app that demonstrates how to handle non-UI logic safely during the composition lifecycle.
+A practical learning project focused on mastering **Jetpack Compose Side Effects**, state management, and resolving advanced configuration issues in modern Android development.
 
-## 🚀 Features
+## 🚀 Key Features
 
-- **Total Counter**: Add numeric values to a running total.
-- **Round Logic**: Automatically resets the total and increments the "Round" when the sum exceeds 300.
-- **Side Effect Integration**: Uses `LaunchedEffect` to trigger UI feedback (Snackbars) in response to state changes.
-- **Hilt Dependency Injection**: Configured with Dagger Hilt for dependency management.
-- **Modern UI**: Built entirely with Material 3 components like `Scaffold`, `SnackbarHost`, and `OutlinedTextField`.
+- **Dynamic Round Counter**: A unit converter/counter app that tracks totals and increments "Rounds" when thresholds (e.g., 300) are exceeded.
+- **Side Effect Mastery**: Implementation of both event-driven and state-driven side effects.
+- **Material 3 Integration**: Robust use of `Scaffold`, `SnackbarHost`, and `OutlinedTextField` for a modern UX.
+- **Dependency Injection**: Fully configured with **Dagger Hilt** and **KSP**.
 
-## 🧠 What I Learned
+## 🧠 Core Learning Concepts
 
 ### 1. Jetpack Compose Side Effects
-Composition should ideally be side-effect free. To perform actions like showing a Snackbar when a state changes, we use **`LaunchedEffect`**.
-- **Key-based triggers**: The effect re-runs only when the `round` key changes.
-- **Coroutine Scope**: `LaunchedEffect` provides a coroutine scope that is automatically cancelled when the Composable leaves the composition.
+This project explores two primary ways to handle logic that occurs outside the composition:
+- **`rememberCoroutineScope`**: Used for **event-driven** side effects. In this app, it launches a coroutine from a Button's `onClick` to show a Snackbar manually.
+- **`LaunchedEffect`**: Used for **state-driven** side effects. It allows triggering actions (like analytics or UI feedback) automatically when a specific state (like `round`) changes.
 
-### 2. Handling Kotlin 2.x + Hilt Compatibility
-During development, I encountered a common metadata version mismatch between the latest Kotlin (2.4.0) and Hilt. 
-- **The Issue**: `Provided Metadata instance has version 2.4.0, while maximum supported version is 2.3.0`.
-- **The Fix**: Manually overriding the `kotlin-metadata-jvm` dependency in the KSP configuration to allow Hilt to parse newer Kotlin metadata formats.
+### 2. UI Persistence & Layout
+- **Scaffold & SnackbarHost**: Learned the necessity of `SnackbarHost` within a `Scaffold` to make snackbars visible and manageable.
+- **State Hoisting**: Managing `total`, `input`, and `round` states using `remember` and `mutableStateOf`.
 
-### 3. Material 3 Scaffold & Snackbars
-- Learned that `SnackbarHostState` requires a `SnackbarHost` inside a `Scaffold` to be visible.
-- Practiced using `innerPadding` from `Scaffold` to ensure the layout respects system bars and UI components like Snackbars.
+## 🛠 Troubleshooting & Solutions
+
+### 1. Hilt & Kotlin Metadata Conflict
+**Issue**: `[Hilt] Provided Metadata instance has version 2.4.0, while maximum supported version is 2.3.0`.
+**Cause**: Bleeding-edge Kotlin versions (2.4.0) produce metadata that Hilt's internal libraries cannot yet parse.
+**Solution**: Overrode the `kotlin-metadata-jvm` dependency in the KSP configuration within `build.gradle.kts`:
+```kotlin
+ksp("org.jetbrains.kotlin:kotlin-metadata-jvm:${libs.versions.kotlin.get()}")
+```
+
+### 2. Syntax Errors: "Expecting member declaration"
+**Issue**: Error triggered by invalid higher-order function parameter syntax.
+**Lesson**: Functional parameters must have a name and a proper type declaration (e.g., `operation: (Int, Int) -> Int`) instead of just a lambda expression in the signature.
 
 ## 🛠 Tech Stack
 
-- **Kotlin**: 2.4.0
-- **Jetpack Compose**: Multi-platform compatible
-- **Material 3**: Latest UI components
-- **Hilt**: Dependency Injection
-- **KSP**: Kotlin Symbol Processing (Faster than Kapt)
+- **Kotlin**: 2.4.0 (Latest)
+- **Jetpack Compose**: Material 3
+- **Dependency Injection**: Dagger Hilt
+- **Processor**: KSP (Kotlin Symbol Processing)
+- **Build System**: Gradle Version Catalog (toml)
 
-## 📸 How it Works
-
-1. Enter a number in the text field.
-2. Tap **Count**.
-3. When the total hits **300**, the `round` increments.
-4. `LaunchedEffect` detects the change in `round` and calls `snackbarHostState.showSnackbar()`.
+---
+*This project is part of a Jetpack Compose deep-dive curriculum.*
