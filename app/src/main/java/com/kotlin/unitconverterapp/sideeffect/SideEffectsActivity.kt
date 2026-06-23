@@ -14,7 +14,8 @@ class SideEffectsActivity : ComponentActivity() {
             UnitConverterAppTheme {
 //                SideEffect()
 //                RememberUpdateState()
-                DisposableEffect()
+//                DisposableEffect()
+                ProduceState()
             }
         }
     }
