@@ -15,7 +15,6 @@ import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -41,15 +40,17 @@ fun SideEffect(
     var round by remember { mutableStateOf(1) }
 
     val snackbarHostState = remember { SnackbarHostState() }
+
+    val scope = rememberCoroutineScope()
     //side effect. making toast is not in the scope of composition. wo its get called every time recomposition happens
     // this needs to be handled by LaunchedEffect
-    LaunchedEffect(key1 = round) {
-        snackbarHostState.showSnackbar(
-            "Please start counting: Round$round",
-            "Dismiss",
-            duration = SnackbarDuration.Short
-        )
-    }
+//    LaunchedEffect(key1 = round) {
+//        snackbarHostState.showSnackbar(
+//            "Please start counting: Round$round",
+//            "Dismiss",
+//            duration = SnackbarDuration.Short
+//        )
+//    }
 
     Scaffold(
         snackbarHost = {
@@ -100,7 +101,16 @@ fun SideEffect(
                             input = ""
                             total = 0.0
                             round += 1
+
+                            scope.launch {
+                                snackbarHostState.showSnackbar(
+                                    "Please start counting: Round$round",
+                                    "Dismiss",
+                                    duration = SnackbarDuration.Short
+                                )
+                            }
                         }
+
                     }) {
                     Text(
                         text = "Count", fontSize = 30.sp, fontWeight = FontWeight.Bold
