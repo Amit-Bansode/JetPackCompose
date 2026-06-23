@@ -15,7 +15,8 @@ class SideEffectsActivity : ComponentActivity() {
 //                SideEffect()
 //                RememberUpdateState()
 //                DisposableEffect()
-                ProduceState()
+//                ProduceState()
+                DerivedStateOf()
             }
         }
     }
