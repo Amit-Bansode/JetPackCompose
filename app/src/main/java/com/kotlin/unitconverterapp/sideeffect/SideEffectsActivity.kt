@@ -13,7 +13,8 @@ class SideEffectsActivity : ComponentActivity() {
         setContent {
             UnitConverterAppTheme {
 //                SideEffect()
-                RememberUpdateState()
+//                RememberUpdateState()
+                DisposableEffect()
             }
         }
     }
