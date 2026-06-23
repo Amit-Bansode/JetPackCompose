@@ -10,9 +10,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -34,10 +34,12 @@ fun SideEffect(
 ) {
     var total by remember { mutableStateOf(0.0) }
     var input by remember { mutableStateOf("") }
-
+    var round by remember { mutableStateOf(1) }
     //side effect. making toast is not in the scope of composition. wo its get called every time recomposition happens
     // this needs to be handled by LaunchedEffect
-    Toast.makeText(context, "recomposition happened again", Toast.LENGTH_SHORT).show()
+    LaunchedEffect(key1 = round) {
+        Toast.makeText(context, "Please start counting: Round$round", Toast.LENGTH_SHORT).show()
+    }
 
     Column(
         modifier = Modifier
@@ -77,6 +79,11 @@ fun SideEffect(
             onClick = {
                 val value = input.toDoubleOrNull() ?: 0.0
                 total += value
+                if (total > 300) {
+                    input = ""
+                    total = 0.0
+                    round += 1
+                }
             }
         ) {
             Text(
